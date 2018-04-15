@@ -27,6 +27,8 @@
             | FCOL
             | FPAR
             | ATRIB
+            | SENAO
+            | ENTAO
             | IF
             | ELSE
             | WHILE
@@ -34,6 +36,7 @@
             | CASE
             | BREAK
             | PTVIRG
+            | VIRG
             | MAIS
             | MENOS
             | MULT
@@ -44,6 +47,10 @@
             | NAO
             | IGUAL
             | DIFE
+            | LST
+            | GTT
+            | LET
+            | GET
             | DO
             | FOR
             | RET
@@ -63,7 +70,8 @@ let digit = ['0' - '9']
 let integer = digit+
 let double = (digit+ "." digit*) | (digit+ "." digit+)
 let leter = ['a' - 'z' 'A' - 'Z']
-let preproc = '#' leter+
+let lib = "(<|\")?\\s*" leter+ "\\s*(>|\")?"
+let preproc = "#" [^ '\r' '\n']*
 let identifier = leter(leter|digit|'_')*
 let blank = [' ' '\t']+
 let newline = ['\r' '\n']+
@@ -76,6 +84,9 @@ rule token = parse
   | comment {token lexbuf}
   | preproc {token lexbuf}
   | "/*"    {nested_comments 0 lexbuf}
+  | ","     {VIRG}
+  | ":"     {SENAO}
+  | "?"     {ENTAO}
   | ";"     {PTVIRG}
   | '['     {ACOL}
   | '('     {APAR}
@@ -89,6 +100,10 @@ rule token = parse
   | '|'     {OU}
   | "!="    {DIFE}
   | '!'     {NAO}
+  | "<="    {LET}
+  | ">="    {GET}
+  | "<"     {LST}
+  | ">"     {GTT}
   | ')'     {FPAR}
   | '}'     {FCHA}
   | ']'     {FCOL}

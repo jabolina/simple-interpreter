@@ -1,3 +1,3 @@
-# A simple compiler
+# A simple interpreter
 
-<p>A compiler used in a simplified version of C, compiling from C to smali, a Dalvik assembly code.</p>
+<p>A interpreter used in a simplified version of C.</p>
